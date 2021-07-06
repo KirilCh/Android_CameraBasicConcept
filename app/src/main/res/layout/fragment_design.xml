@@ -14,7 +14,7 @@
         android:text="Add Features" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/design_recycler"
+        android:id="@+id/smiley_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/design_options_card"

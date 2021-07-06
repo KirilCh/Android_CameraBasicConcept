@@ -44,7 +44,7 @@ class DesignFragment : Fragment(), SmileyAdapter.OnItemClickListener{
 
         mComunicate = activity as ICommunicator
 
-        val design_recycler : RecyclerView = view.findViewById(R.id.design_recycler)
+        val design_recycler : RecyclerView = view.findViewById(R.id.smiley_recycler)
         mSmileyList = generateSmileyList(24) as ArrayList<SmileyItem>
 
         design_recycler.adapter = SmileyAdapter(mSmileyList, this)

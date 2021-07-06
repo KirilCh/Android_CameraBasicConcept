@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.first.emojisnap.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceContour
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity(), ICommunicator
     private var mImageMaxWidth: Int? = null
     private var mImageMaxHeight: Int? = null
 
-    private lateinit var btnTakePicture : Button
+    private lateinit var mBtnTakePicture : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +51,9 @@ class MainActivity : AppCompatActivity(), ICommunicator
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
 
-        btnTakePicture = binding.btnTakePicture
+        mBtnTakePicture = binding.btnTakePicture
         //Camera action started upon pressing the button in MainActivity layout
-        btnTakePicture.setOnClickListener {
+        mBtnTakePicture.setOnClickListener {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             photoFile = getPhotoFile(FILE_NAME)
 
@@ -74,11 +76,22 @@ class MainActivity : AppCompatActivity(), ICommunicator
             }
         }
 
+
+        // fragment controll
         var editFragment = binding.editFragment
 
         var designFragment = DesignFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.editFragment, designFragment).commit()
-        /// Yonatan
+        //supportFragmentManager.beginTransaction().replace(R.id.editFragment, designFragment).commit()
+
+        var featuersFragment = FaceFeatuersFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.editFragment, featuersFragment).commit()
+
+        BottomSheetBehavior.from(editFragment).apply {
+            peekHeight=65
+            this.state=BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+
 
         imageView = binding.imageView
 
@@ -176,13 +189,13 @@ class MainActivity : AppCompatActivity(), ICommunicator
         for (i in faces.indices) {
             val face = faces[i]
             facesList.add(FaceDetails(faces[i]))
-            Log.d("testing face", face.toString())
+//            Log.d("testing face", face.toString())
             val contour = face.getContour(FaceContour.FACE)
 
             // testing in console
-            contour.points.forEach {
-                println("Point at ${it.x}, ${it.y}")
-            }
+//            contour.points.forEach {
+//                println("Point at ${it.x}, ${it.y}")
+//            }
 
 
             val (xMidPoint, yMidPoint, width1, hight1) = facesList[i].getCenterOfFacePoint()
@@ -202,7 +215,7 @@ class MainActivity : AppCompatActivity(), ICommunicator
             path.close()
             canvas.drawPath(path, myPaint)
 
-            val bitmapForImageView : Bitmap = overlay(mBitmap,mSmily,xMidPoint,yMidPoint,width1,hight1) as Bitmap
+            val bitmapForImageView : Bitmap = overlay(mutableBitmap,mSmily,xMidPoint,yMidPoint,width1,hight1) as Bitmap
             imageView.setImageBitmap(bitmapForImageView)
 
         }
