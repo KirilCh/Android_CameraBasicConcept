@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:padding="5dp"
-    tools:context=".MainActivity">
+    tools:context=".MainFragment" >
 
-<!--    <Button
+
+    <Button
         android:id="@+id/btnTakePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|left"
-        android:onClick="buttonTakePicClicked"
         android:text="Take Picture" />
 
     <Button
@@ -22,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|right"
-        android:onClick="buttonChooseFromLibraryClicked"
         android:text="Choose From Library" />
 
     <ImageView
@@ -39,14 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="30dp"
-        android:text="Save Me !"
-        android:onClick="buttonContinueEdit"/>-->
+        android:text="Lets Edit !" />
 
 
-    <FrameLayout
-        android:id="@+id/mainFrame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

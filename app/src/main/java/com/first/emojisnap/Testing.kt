@@ -19,6 +19,8 @@ import java.io.InputStream
 
 class Testing {
 
+
+
 /*    private lateinit var imageView: ImageView
     private lateinit var button: Button
     private lateinit var bitmap: Bitmap
@@ -308,4 +310,71 @@ class Testing {
         return bitmap
     }*/
 
+
+    //    fun buttonTakePicClicked() {
+//        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        photoFile = getPhotoFile(FILE_NAME)
+//        //Requires additional code in AndroidManifest - <provider> block
+//        //Also requires fileprovider.xml file and folder under "res" folder
+//
+//        val fileProvider = FileProvider.getUriForFile(
+//            this,
+//            "com.application.provider.emojisnap",
+//            photoFile
+//        )
+//        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
+//
+//        if (takePictureIntent.resolveActivity(this.packageManager) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_CODE)
+//        } else {
+//            Toast.makeText(this, "Unable to open camera", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//
+//    fun buttonChooseFromLibraryClicked() {
+//        val intent = Intent(Intent.ACTION_PICK)
+//        intent.type = "image/*"
+//        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+//    }
+
+//    private fun getPhotoFile(fileName: String): File {
+//        // Use `getExternalFilesDir` on Context to access package-specific directories.
+//        val storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        return File.createTempFile(fileName, ".*", storageDirectory)
+//    }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
+//
+//            //Image rotation, to display it the proper way
+//            val matrix = Matrix()
+//            matrix.postRotate(270F)
+//            val scaledBitmap =
+//                Bitmap.createScaledBitmap(takenImage, takenImage.width, takenImage.height, true)
+//
+//            //Bitmap image
+//            val rotatedBitmap = Bitmap.createBitmap(
+//                scaledBitmap,
+//                0,
+//                0,
+//                scaledBitmap.width,
+//                scaledBitmap.height,
+//                matrix,
+//                true
+//            )
+//
+//            mBitmap = rotatedBitmap;
+//            imageView.setImageBitmap(rotatedBitmap)
+//        } else if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            val inputStream: InputStream? = data?.data?.let { contentResolver.openInputStream(it) }
+//            mBitmap = BitmapFactory.decodeStream(inputStream)
+//            mBitmap = Bitmap.createScaledBitmap(mBitmap, 500, 500, true)
+//
+//            imageView.setImageBitmap(mBitmap)
+//        } else {
+//            super.onActivityResult(requestCode, resultCode, data)
+//        }
+//
+//    }
 }

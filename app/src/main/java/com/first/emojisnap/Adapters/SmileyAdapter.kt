@@ -1,4 +1,4 @@
-package com.first.emojisnap
+package com.first.emojisnap.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.first.emojisnap.R
+import com.first.emojisnap.SmileyType
 import kotlinx.android.synthetic.main.design_options_card.view.*
 
 class SmileyAdapter(
-    private val itemList : List<SmileyItem>,
-    private val listener : OnItemClickListener
+        private val itemList : List<SmileyItem>,
+        private val listener : OnItemClickListener,
+        private val mChooseSmileyType : SmileyType
     ) : RecyclerView.Adapter<SmileyAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,13 +42,13 @@ class SmileyAdapter(
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+                listener.onItemClick(position, mChooseSmileyType)
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, chooseSmiley : SmileyType)
     }
 
 }

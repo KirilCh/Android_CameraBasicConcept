@@ -1,4 +1,4 @@
-package com.first.emojisnap
+package com.first.emojisnap.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.first.emojisnap.Adapters.SmileyAdapter
+import com.first.emojisnap.Adapters.SmileyItem
+import com.first.emojisnap.R
+import com.first.emojisnap.SmileyType
+import com.first.emojisnap.model.ICommunicator
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +52,7 @@ class DesignFragment : Fragment(), SmileyAdapter.OnItemClickListener{
         val design_recycler : RecyclerView = view.findViewById(R.id.smiley_recycler)
         mSmileyList = generateSmileyList(24) as ArrayList<SmileyItem>
 
-        design_recycler.adapter = SmileyAdapter(mSmileyList, this)
+        design_recycler.adapter = SmileyAdapter(mSmileyList, this, SmileyType.SMILEY)
         design_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         design_recycler.setHasFixedSize(true)
 
@@ -85,9 +90,10 @@ class DesignFragment : Fragment(), SmileyAdapter.OnItemClickListener{
             }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int, smileyType: SmileyType) {
         //Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem = mSmileyList[position]
+
         mComunicate.getBitmapFromFragment(clickedItem.imageResource)
     }
 }

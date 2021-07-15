@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FaceFeatuersFragment" >
+    tools:context=".Fragments.FaceFeatuersFragment" >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eyes_recycler"
@@ -26,6 +26,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mouth_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/design_options_card"
+        android:layout_weight="1"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mustache_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/design_options_card"
