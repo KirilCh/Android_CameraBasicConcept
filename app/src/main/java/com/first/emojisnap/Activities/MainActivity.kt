@@ -9,6 +9,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity(), ICommunicator {
     private lateinit var mBtnChooseFromLibrary: Button
 
     private lateinit var mainFragment: Fragment
+    private lateinit var editFragment : FrameLayout
 
 
     companion object {
@@ -79,15 +81,14 @@ class MainActivity : AppCompatActivity(), ICommunicator {
 
         var featuersFragment = FaceFeatuersFragment()
         supportFragmentManager.beginTransaction().replace(R.id.editFragment, featuersFragment).commit()
+        editFragment = binding.editFragment
 
 
-
-
-        var editFragment = binding.editFragment
         BottomSheetBehavior.from(editFragment).apply {
             peekHeight=65
             this.state= BottomSheetBehavior.STATE_COLLAPSED
         }
+        editFragment.visibility = View.GONE
 
         mSmily = BitmapFactory.decodeResource(resources, R.drawable.smiley1)
 
@@ -247,8 +248,13 @@ class MainActivity : AppCompatActivity(), ICommunicator {
     fun buttonContinueEdit(bitmap: Bitmap) {
         var editImageFragment = EditImageFragment()
         editImageFragment.setBitmap(bitmap)
+        editImageFragment.setMainActivity(this)
         this.supportFragmentManager.beginTransaction().replace(R.id.mainFrame, editImageFragment)
             .commit()
+
+
+
+        editFragment.visibility = View.VISIBLE
 
 //        var featuersFragment = FaceFeatuersFragment()
 

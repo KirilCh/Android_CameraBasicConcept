@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.first.emojisnap.MainActivity
 import com.first.emojisnap.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,6 +27,7 @@ class EditImageFragment : Fragment() {
 
     private lateinit var mBitmap : Bitmap
     private lateinit var imageViewEdit : ImageView
+    private lateinit var mMainActivity: MainActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +47,8 @@ class EditImageFragment : Fragment() {
         imageViewEdit.setImageBitmap(mBitmap)
 
 
-        var featuersFragment = FaceFeatuersFragment()
-        childFragmentManager.beginTransaction().replace(R.id.editFrame, featuersFragment).commit()
+//        var featuersFragment = FaceFeatuersFragment()
+//        childFragmentManager.beginTransaction().replace(R.id.editFrame, featuersFragment).commit()
 
 
         return view
@@ -54,6 +56,10 @@ class EditImageFragment : Fragment() {
 
     fun setBitmap(bitmap: Bitmap) {
         mBitmap = bitmap
+    }
+
+    fun setMainActivity(mainActivity: MainActivity) {
+        mMainActivity = mainActivity
     }
 
     companion object {
