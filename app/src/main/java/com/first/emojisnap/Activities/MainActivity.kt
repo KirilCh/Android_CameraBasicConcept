@@ -78,12 +78,12 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         //supportFragmentManager.beginTransaction().replace(R.id.editFragment, designFragment).commit()
 
         var featuersFragment = FaceFeatuersFragment()
-        //supportFragmentManager.beginTransaction().replace(R.id.editFrame, featuersFragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.editFragment, featuersFragment).commit()
 
 
 
 
-        var editFragment : View = view.findViewById(R.id.editFrame)
+        var editFragment = binding.editFragment
         BottomSheetBehavior.from(editFragment).apply {
             peekHeight=65
             this.state= BottomSheetBehavior.STATE_COLLAPSED
