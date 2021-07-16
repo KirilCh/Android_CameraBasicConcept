@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.first.emojisnap.R
 import com.first.emojisnap.SmileyType
 import kotlinx.android.synthetic.main.design_options_card.view.*
+import kotlinx.android.synthetic.main.fragment_face_featuers.view.*
 
 class SmileyAdapter(
         private val itemList : List<SmileyItem>,

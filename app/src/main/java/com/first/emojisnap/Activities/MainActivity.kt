@@ -1,19 +1,13 @@
 package com.first.emojisnap
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.first.emojisnap.Fragments.*
 import com.first.emojisnap.databinding.ActivityMainBinding
@@ -24,10 +18,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.fragment_half_show_edit.view.*
 import java.io.File
-import java.io.InputStream
 
 private const val FILE_NAME = "myEmoji.jpg" //Can be later changed to dynamic naming
 private const val REQUEST_CODE = 42
@@ -43,10 +34,10 @@ enum class SmileyType {
 
 class MainActivity : AppCompatActivity(), ICommunicator {
 
-    private lateinit var imageView: ImageView
-    private lateinit var button: Button
-    private lateinit var mBitmap: Bitmap
-    private lateinit var mSelectedImage: Bitmap
+    private lateinit var mOriginalBitmap: Bitmap
+    private lateinit var mWorkingBitmap: Bitmap
+    private lateinit var mCurBitmap: Bitmap
+
     private lateinit var mSmily: Bitmap
 
     private lateinit var mFragment: Fragment
@@ -59,11 +50,24 @@ class MainActivity : AppCompatActivity(), ICommunicator {
 
     private lateinit var mainFragment: Fragment
     private lateinit var editFragment : FrameLayout
+    private lateinit var editImageFragment : EditImageFragment
+
+    private lateinit var featuersFragment : FaceFeatuersFragment
+
+    private var mFaceBoolean = false
+    private var mEyeBoolean = false
+    private var mNoseBoolean = false
+    private var mMoustacheBoolean = false
+    private var mMouthBoolean = false
+
 
 
     companion object {
         val IMAGE_REQUEST_CODE = 100
     }
+
+    // gallery premissions
+    // save image
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         var designFragment = DesignFragment()
         //supportFragmentManager.beginTransaction().replace(R.id.editFragment, designFragment).commit()
 
-        var featuersFragment = FaceFeatuersFragment()
+        featuersFragment = FaceFeatuersFragment()
         supportFragmentManager.beginTransaction().replace(R.id.editFragment, featuersFragment).commit()
         editFragment = binding.editFragment
 
@@ -98,8 +102,8 @@ class MainActivity : AppCompatActivity(), ICommunicator {
 
     // From here - Start Processing The Image
 
-    private fun runFaceContourDetection(iSelectedImage: Bitmap, smileyType: SmileyType) {
-        val image = InputImage.fromBitmap(iSelectedImage, 0)
+    private fun runFaceContourDetection(smileyType: SmileyType) {
+        val image = InputImage.fromBitmap(mOriginalBitmap, 0)
         val options = FaceDetectorOptions.Builder()
             .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
             .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
@@ -115,16 +119,27 @@ class MainActivity : AppCompatActivity(), ICommunicator {
                 //button.setEnabled(true)
                 e.printStackTrace()
             }
-        //imageView.setImageBitmap()
     }
 
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
+    private fun returnMutableBitmap(): Bitmap {
+        var mutableBitmap : Bitmap
+
+        if(mFaceBoolean) {
+            mutableBitmap = mOriginalBitmap.copy(Bitmap.Config.ARGB_8888, true)
+        }
+        else {
+            mutableBitmap = mWorkingBitmap.copy(Bitmap.Config.ARGB_8888, true)
+        }
+        return mutableBitmap
+    }
+
     private fun processFaceContourDetectionResult(faces: List<Face>, smileyType: SmileyType) {
         // Task completed successfully
-        if (faces.size == 0) {
+        if (faces.isEmpty()) {
             showToast("No face found")
             return
         }
@@ -133,10 +148,8 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         for (i in faces.indices) {
             facesList.add(FaceDetails(faces[i]))
 
-            val mutableBitmap =
-                (imageView.drawable as BitmapDrawable).bitmap.copy(
-                    Bitmap.Config.ARGB_8888, true
-                )
+            var mutableBitmap : Bitmap = returnMutableBitmap()
+
 
             when (smileyType) {
                 SmileyType.SMILEY -> {
@@ -149,15 +162,20 @@ class MainActivity : AppCompatActivity(), ICommunicator {
                         width + width / 3,
                         hight + hight / 2
                     ) as Bitmap
-                    imageView.setImageBitmap(bitmapForImageView)
+                    mCurBitmap = bitmapForImageView
                 }
                 SmileyType.EYE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getLeftEyePoint()
-                    val bitmapForImageView: Bitmap =
+                    width = if(width< 10f ) 30f else width
+                    hight = if(hight < 10f ) 30f else hight
+                    val bitmapForImageView : Bitmap =
                         overlay(mutableBitmap, mSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
 
+
                     var (xMidPoint1, yMidPoint1, width1, hight1) = facesList[i].getRightEyePoint()
-                    val bitmapForImageView1: Bitmap = overlay(
+                    width1 = if(width1< 10f ) 30f else width1
+                    hight1 = if(hight1 < 10f ) 30f else hight1
+                    val bitmapForImageView1 : Bitmap = overlay(
                         bitmapForImageView,
                         mSmily,
                         xMidPoint1,
@@ -165,7 +183,7 @@ class MainActivity : AppCompatActivity(), ICommunicator {
                         width1,
                         hight1
                     ) as Bitmap
-                    imageView.setImageBitmap(bitmapForImageView1)
+                    mCurBitmap = bitmapForImageView1
                 }
                 SmileyType.NOSE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getCenterNosePoint()
@@ -177,19 +195,20 @@ class MainActivity : AppCompatActivity(), ICommunicator {
                         hight,
                         hight
                     ) as Bitmap
-                    imageView.setImageBitmap(bitmapForImageView)
+                    mCurBitmap = bitmapForImageView
                 }
                 SmileyType.MOUTH -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getCenterLipPoint()
                     val bitmapForImageView: Bitmap =
                         overlay(mutableBitmap, mSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
-                    imageView.setImageBitmap(bitmapForImageView)
+                    //imageView.setImageBitmap(bitmapForImageView)
+                    mCurBitmap = bitmapForImageView
                 }
                 SmileyType.MUSTACHE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getMustachePoint()
                     val bitmapForImageView: Bitmap =
                         overlay(mutableBitmap, mSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
-                    imageView.setImageBitmap(bitmapForImageView)
+                    mCurBitmap = bitmapForImageView
                 }
             }
         }
@@ -220,44 +239,103 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         }
     }
 
-    override fun getBitmapFromFragment(imageResource: Int) {
-        mSmily = BitmapFactory.decodeResource(resources, imageResource)
-        runFaceContourDetection(mBitmap, SmileyType.SMILEY)
-    }
 
     override fun getEyeFromFragment(imageResource: Int) {
         mSmily = BitmapFactory.decodeResource(resources, imageResource)
-        runFaceContourDetection(mBitmap, SmileyType.EYE)
+        runFaceContourDetection(SmileyType.EYE)
+        editImageFragment.changeBitmap(mCurBitmap)
     }
 
     override fun getNoseFromFragment(imageResource: Int) {
         mSmily = BitmapFactory.decodeResource(resources, imageResource)
-        runFaceContourDetection(mBitmap, SmileyType.NOSE)
+        runFaceContourDetection(SmileyType.NOSE)
+        editImageFragment.changeBitmap(mCurBitmap)
     }
 
     override fun getMouthFromFragment(imageResource: Int) {
         mSmily = BitmapFactory.decodeResource(resources, imageResource)
-        runFaceContourDetection(mBitmap, SmileyType.MOUTH)
+        runFaceContourDetection(SmileyType.MOUTH)
+        editImageFragment.changeBitmap(mCurBitmap)
     }
 
     override fun getMustacheFromFragment(imageResource: Int) {
         mSmily = BitmapFactory.decodeResource(resources, imageResource)
-        runFaceContourDetection(mBitmap, SmileyType.MUSTACHE)
+        runFaceContourDetection(SmileyType.MUSTACHE)
+        editImageFragment.changeBitmap(mCurBitmap)
     }
 
+    override fun getFaceFromFragment(imageResource: Int) {
+        mSmily = BitmapFactory.decodeResource(resources, imageResource)
+        runFaceContourDetection(SmileyType.SMILEY)
+        editImageFragment.changeBitmap(mCurBitmap)
+    }
+
+
     fun buttonContinueEdit(bitmap: Bitmap) {
-        var editImageFragment = EditImageFragment()
+        mOriginalBitmap = bitmap
+        mWorkingBitmap = mOriginalBitmap
+        mCurBitmap = mOriginalBitmap
+        editImageFragment = EditImageFragment()
         editImageFragment.setBitmap(bitmap)
         editImageFragment.setMainActivity(this)
         this.supportFragmentManager.beginTransaction().replace(R.id.mainFrame, editImageFragment)
             .commit()
-
-
-
+        featuersFragment.showFaces()
         editFragment.visibility = View.VISIBLE
+        mFaceBoolean = true
+    }
 
-//        var featuersFragment = FaceFeatuersFragment()
+    fun changeEditFrameToFaces() {
+        mWorkingBitmap = mCurBitmap
+        mFaceBoolean = true
+        featuersFragment.showFaces()
+        BottomSheetBehavior.from(editFragment).apply {
+            this.state= BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
 
+    fun changeEditFrameToEyes() {
+        changeImageIfFaceBoolean(false)
+        featuersFragment.showEyes()
+
+    }
+
+    fun changeEditFrameToNoses() {
+        changeImageIfFaceBoolean(false)
+        featuersFragment.showNoses()
+    }
+
+    fun changeEditFrameToMoustaches() {
+        changeImageIfFaceBoolean(false)
+        featuersFragment.showMoustaches()
+    }
+
+    fun changeEditFrameToMouth() {
+        changeImageIfFaceBoolean(false)
+        featuersFragment.showMouth()
+    }
+
+    fun changeImageIfFaceBoolean(iTurnTo : Boolean)
+    {
+        if(mFaceBoolean)
+        {
+            mWorkingBitmap = mOriginalBitmap
+            mCurBitmap = mOriginalBitmap
+        }
+        else {
+            mWorkingBitmap = mCurBitmap
+        }
+        mFaceBoolean = iTurnTo
+
+        BottomSheetBehavior.from(editFragment).apply {
+            this.state= BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
+    fun getOriginalBitmap(): Bitmap {
+        mWorkingBitmap = mOriginalBitmap
+        mCurBitmap = mOriginalBitmap
+        return mOriginalBitmap
     }
 }
 

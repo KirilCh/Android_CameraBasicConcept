@@ -9,40 +9,6 @@
     android:padding="5dp"
     tools:context=".MainActivity">
 
-<!--    <Button
-        android:id="@+id/btnTakePicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|left"
-        android:onClick="buttonTakePicClicked"
-        android:text="Take Picture" />
-
-    <Button
-        android:id="@+id/btnChoseFromLibrary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|right"
-        android:onClick="buttonChooseFromLibraryClicked"
-        android:text="Choose From Library" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:src="@mipmap/ic_launcher" />
-
-
-    <Button
-        android:id="@+id/btnContinueEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="30dp"
-        android:text="Save Me !"
-        android:onClick="buttonContinueEdit"/>-->
-
-
     <FrameLayout
         android:id="@+id/mainFrame"
         android:layout_width="match_parent"

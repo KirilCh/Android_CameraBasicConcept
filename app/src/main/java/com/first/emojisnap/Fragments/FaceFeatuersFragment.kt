@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
+private lateinit var mFacesList : ArrayList<SmileyItem>
 private lateinit var mEyesList : ArrayList<SmileyItem>
 private lateinit var mNoseList : ArrayList<SmileyItem>
 private lateinit var mMouthList : ArrayList<SmileyItem>
@@ -33,6 +35,13 @@ private lateinit var mMoustache : ArrayList<SmileyItem>
 private lateinit var mComunicate : ICommunicator
 
 private lateinit var mEnumChoose : SmileyType
+
+private lateinit var moustache_recycler : RecyclerView
+private lateinit var mouth_recycler : RecyclerView
+private lateinit var nose_recycler : RecyclerView
+private lateinit var eyes_recycler : RecyclerView
+private lateinit var faces_recycler : RecyclerView
+private lateinit var textView_type : TextView
 
 class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
@@ -54,30 +63,34 @@ class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
 
         mComunicate = activity as ICommunicator
 
-        val eyes_recycler : RecyclerView = view.findViewById(R.id.eyes_recycler)
-        mEyesList = generateSmileyList(24) as ArrayList<SmileyItem>
+        textView_type = view.findViewById<TextView>(R.id.textView_type)
 
+        faces_recycler = view.findViewById(R.id.faces_recycler)
+        mFacesList = generateSmileyList(14,"smiley", R.drawable.smiley1) as ArrayList<SmileyItem>
+        faces_recycler.adapter = SmileyAdapter(mFacesList, this, SmileyType.SMILEY)
+        faces_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        faces_recycler.setHasFixedSize(true)
+
+        eyes_recycler = view.findViewById(R.id.eyes_recycler)
+        mEyesList = generateSmileyList(9,"eyes", R.drawable.eyes1) as ArrayList<SmileyItem>
         eyes_recycler.adapter = SmileyAdapter(mEyesList, this, SmileyType.EYE)
         eyes_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         eyes_recycler.setHasFixedSize(true)
 
-        val nose_recycler : RecyclerView = view.findViewById(R.id.nose_recycler)
-        mNoseList = generateSmileyList(24) as ArrayList<SmileyItem>
-
+        nose_recycler = view.findViewById(R.id.nose_recycler)
+        mNoseList = generateSmileyList(9,"nose", R.drawable.nose1) as ArrayList<SmileyItem>
         nose_recycler.adapter = SmileyAdapter(mNoseList, this, SmileyType.NOSE)
         nose_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         nose_recycler.setHasFixedSize(true)
 
-        val mouth_recycler : RecyclerView = view.findViewById(R.id.mouth_recycler)
-        mMouthList = generateSmileyList(24) as ArrayList<SmileyItem>
-
+        mouth_recycler = view.findViewById(R.id.mouth_recycler)
+        mMouthList = generateSmileyList(6,"mouth", R.drawable.mouth1) as ArrayList<SmileyItem>
         mouth_recycler.adapter = SmileyAdapter(mMouthList, this, SmileyType.MOUTH)
         mouth_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mouth_recycler.setHasFixedSize(true)
 
-        val moustache_recycler : RecyclerView = view.findViewById(R.id.mustache_recycler)
-        mMoustache = generateSmileyList(24) as ArrayList<SmileyItem>
-
+        moustache_recycler = view.findViewById(R.id.mustache_recycler)
+        mMoustache = generateSmileyList(4,"mustache", R.drawable.mustache1) as ArrayList<SmileyItem>
         moustache_recycler.adapter = SmileyAdapter(mMoustache, this, SmileyType.MUSTACHE)
         moustache_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         moustache_recycler.setHasFixedSize(true)
@@ -86,15 +99,14 @@ class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
     }
 
 
-    private fun generateSmileyList(size: Int) : List<SmileyItem> {
-        val list = ArrayList<SmileyItem>()
-
-        for(i in 1 until size) {
-            val drawable = R.drawable.smiley1+i
-            val item = SmileyItem(drawable,"Smiley $i")
-            list+=item
+    private fun generateSmileyList(iSize: Int, iType: String, iDrawable : Int) : List<SmileyItem> {
+        val listOfImages = ArrayList<SmileyItem>()
+        for(i in 0 until iSize) {
+            val drawable = iDrawable+i
+            val item = SmileyItem(drawable,"$iType $i")
+            listOfImages+=item
         }
-        return list
+        return listOfImages
     }
 
     companion object {
@@ -130,7 +142,7 @@ class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
             }
             SmileyType.NOSE -> {
                 clickedItem = mNoseList[position]
-                Toast.makeText(context, "NOse", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Nose", Toast.LENGTH_SHORT).show()
                 mComunicate.getNoseFromFragment(clickedItem.imageResource)
             }
             SmileyType.MOUTH -> {
@@ -143,7 +155,54 @@ class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
                 Toast.makeText(context, "Mustache", Toast.LENGTH_SHORT).show()
                 mComunicate.getMouthFromFragment(clickedItem.imageResource)
             }
+            SmileyType.SMILEY -> {
+                clickedItem = mFacesList[position]
+                Toast.makeText(context, "Face", Toast.LENGTH_SHORT).show()
+                mComunicate.getFaceFromFragment(clickedItem.imageResource)
+            }
         }
+    }
+
+    fun showFaces()
+    {
+        goneAllRecycler()
+        faces_recycler.visibility = View.VISIBLE
+        textView_type.text = "Faces"
+    }
+
+    fun showEyes()
+    {
+        goneAllRecycler()
+        eyes_recycler.visibility = View.VISIBLE
+        textView_type.text = "Eyes"
+    }
+
+    fun showNoses() {
+        goneAllRecycler()
+        nose_recycler.visibility = View.VISIBLE
+        textView_type.text = "Noses"
+    }
+
+    fun showMoustaches() {
+        goneAllRecycler()
+        moustache_recycler.visibility = View.VISIBLE
+        textView_type.text = "Moustaches"
+    }
+
+    fun showMouth() {
+        goneAllRecycler()
+        mouth_recycler.visibility = View.VISIBLE
+        textView_type.text = "Mouth"
+    }
+
+
+    fun goneAllRecycler()
+    {
+        moustache_recycler.visibility = View.GONE
+        mouth_recycler.visibility = View.GONE
+        nose_recycler.visibility = View.GONE
+        eyes_recycler.visibility = View.GONE
+        faces_recycler.visibility = View.GONE
     }
 
 

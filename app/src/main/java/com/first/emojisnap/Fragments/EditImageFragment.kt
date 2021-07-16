@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import com.first.emojisnap.MainActivity
 import com.first.emojisnap.R
 
@@ -28,6 +30,7 @@ class EditImageFragment : Fragment() {
     private lateinit var mBitmap : Bitmap
     private lateinit var imageViewEdit : ImageView
     private lateinit var mMainActivity: MainActivity
+    private lateinit var btn_show_orignal_bitmap : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +49,36 @@ class EditImageFragment : Fragment() {
 
         imageViewEdit.setImageBitmap(mBitmap)
 
+        btn_show_orignal_bitmap = view.findViewById(R.id.btn_show_orignal_bitmap)
+        btn_show_orignal_bitmap.setOnClickListener(View.OnClickListener {
+            mBitmap = mMainActivity.getOriginalBitmap()
+            imageViewEdit.setImageBitmap(mBitmap)
+        })
 
-//        var featuersFragment = FaceFeatuersFragment()
-//        childFragmentManager.beginTransaction().replace(R.id.editFrame, featuersFragment).commit()
+        var btn_open_faces = view.findViewById<Button>(R.id.btn_open_faces)
+        btn_open_faces.setOnClickListener(View.OnClickListener {
+            mMainActivity.changeEditFrameToFaces()
+        })
 
+        var btn_open_eyes = view.findViewById<Button>(R.id.btn_open_eyes)
+        btn_open_eyes.setOnClickListener(View.OnClickListener {
+            mMainActivity.changeEditFrameToEyes()
+        })
+
+        var btn_open_noses = view.findViewById<Button>(R.id.btn_open_noses)
+        btn_open_noses.setOnClickListener(View.OnClickListener {
+            mMainActivity.changeEditFrameToNoses()
+        })
+
+        var btn_open_moustache = view.findViewById<Button>(R.id.btn_open_moustache)
+        btn_open_moustache.setOnClickListener(View.OnClickListener {
+            mMainActivity.changeEditFrameToMoustaches()
+        })
+
+        var btn_open_mouth = view.findViewById<Button>(R.id.btn_open_mouth)
+        btn_open_mouth.setOnClickListener(View.OnClickListener {
+            mMainActivity.changeEditFrameToMouth()
+        })
 
         return view
     }
@@ -60,6 +89,12 @@ class EditImageFragment : Fragment() {
 
     fun setMainActivity(mainActivity: MainActivity) {
         mMainActivity = mainActivity
+    }
+
+    fun changeBitmap(bitmap: Bitmap)
+    {
+        mBitmap = bitmap
+        imageViewEdit.setImageBitmap(mBitmap)
     }
 
     companion object {

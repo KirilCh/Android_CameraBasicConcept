@@ -94,6 +94,6 @@ class DesignFragment : Fragment(), SmileyAdapter.OnItemClickListener{
         //Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem = mSmileyList[position]
 
-        mComunicate.getBitmapFromFragment(clickedItem.imageResource)
+        mComunicate.getFaceFromFragment(clickedItem.imageResource)
     }
 }
