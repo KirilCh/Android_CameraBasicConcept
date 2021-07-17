@@ -1,5 +1,9 @@
 package com.first.emojisnap.model
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
+import com.first.emojisnap.SmileyType
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceContour
 import kotlin.math.abs
@@ -94,4 +98,12 @@ class FaceDetails ( face : Face ) {
 
         return arrayOf(xMidPoint,yMidPoint, widthBitmap, heightBitmap)
     }
+
+
+
+
+
+
+
+
 }
