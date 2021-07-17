@@ -40,14 +40,6 @@ class MainActivity : AppCompatActivity(), ICommunicator {
 
     private lateinit var mSmily: Bitmap
 
-    private lateinit var mFragment: Fragment
-
-    private var mImageMaxWidth: Int? = null
-    private var mImageMaxHeight: Int? = null
-
-    private lateinit var mBtnTakePicture: Button
-    private lateinit var mBtnChooseFromLibrary: Button
-
     private lateinit var mainFragment: Fragment
     private lateinit var editFragment : FrameLayout
     private lateinit var editImageFragment : EditImageFragment
@@ -55,18 +47,12 @@ class MainActivity : AppCompatActivity(), ICommunicator {
     private lateinit var featuersFragment : FaceFeatuersFragment
 
     private var mFaceBoolean = false
-    private var mEyeBoolean = false
-    private var mNoseBoolean = false
-    private var mMoustacheBoolean = false
-    private var mMouthBoolean = false
-
 
 
     companion object {
         val IMAGE_REQUEST_CODE = 100
     }
 
-    // gallery premissions
     // save image
 
     override fun onCreate(savedInstanceState: Bundle?) {

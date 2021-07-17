@@ -46,17 +46,8 @@ class MainFragment : Fragment() {
 
     private lateinit var mMainActivity : MainActivity
 
-    private var IMAGE_REQUEST_CODE = 100
-    private var CAMERA_PERMISSION_CODE = 42
-    private val CAMERA_REQUEST_CODE = 2
-
     private lateinit var mBitmap : Bitmap
     private lateinit var imageView : ImageView
-
-    fun setMainActivity(mainActivity: MainActivity)
-    {
-        mMainActivity = mainActivity
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +64,6 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main, container, false)
-
-        //mainActivity = MainActivity()
 
         imageView = view.findViewById(R.id.imageView)
 
@@ -97,14 +86,35 @@ class MainFragment : Fragment() {
         return view
     }
 
-    fun buttonTakePicClicked()
+    fun setMainActivity(mainActivity: MainActivity)
+    {
+        mMainActivity = mainActivity
+    }
+
+    private fun buttonChooseFromLibraryClicked()
     {
         if( context != null) {
             if (ContextCompat.checkSelfPermission(
                             requireContext(),
-                            android.Manifest.permission.CAMERA
-                    ) == PackageManager.PERMISSION_GRANTED
-            ) {
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, IMAGE_REQUEST_CODE)
+            } else {
+                ActivityCompat.requestPermissions(
+                        context as Activity,
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        IMAGE_PERMISSION_CODE
+                )
+            }
+        }
+    }
+
+    private fun buttonTakePicClicked()
+    {
+        if( context != null) {
+            if (ContextCompat.checkSelfPermission( requireContext(), android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(intent, CAMERA_REQUEST_CODE)
             } else {
@@ -117,56 +127,42 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun buttonChooseFromLibraryClicked()
-    {
-        //mainActivity.buttonChooseFromLibraryClicked()
 
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE)
-    }
-
-    fun buttonContinueEdit()
+    private fun buttonContinueEdit()
     {
         mMainActivity.buttonContinueEdit(mBitmap)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    //super.onActivityResult(requestCode, resultCode, data)
-
-    if(requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK)
-    {
-        val takenImage = data!!.extras!!.get("data") as Bitmap
-
-        val matrix = Matrix()
-        matrix.postRotate(270F)
-        val scaledBitmap = Bitmap.createScaledBitmap(takenImage, takenImage.width, takenImage.height, true)
-
-        //Bitmap image
-        val rotatedBitmap = Bitmap.createBitmap(
-                scaledBitmap,
-                0,
-                0,
-                scaledBitmap.width,
-                scaledBitmap.height,
-                matrix,
-                true)
-
-        mBitmap = rotatedBitmap;
-        imageView.setImageBitmap(mBitmap)
-    }
-
-    else if(requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK)
         {
-            mBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, data?.data)
-            mBitmap = Bitmap.createScaledBitmap(mBitmap, 500, 500, true)
+            val takenImage = data!!.extras!!.get("data") as Bitmap
+
+            val matrix = Matrix()
+            matrix.postRotate(270F)
+            val scaledBitmap = Bitmap.createScaledBitmap(takenImage, takenImage.width, takenImage.height, true)
+
+            //Bitmap image
+            val rotatedBitmap = Bitmap.createBitmap(
+                    scaledBitmap,
+                    0,
+                    0,
+                    scaledBitmap.width,
+                    scaledBitmap.height,
+                    matrix,
+                    true)
+
+            mBitmap = rotatedBitmap;
             imageView.setImageBitmap(mBitmap)
         }
-        else
-        {
-            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-        }
+
+        else if(requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+                mBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, data?.data)
+                mBitmap = Bitmap.createScaledBitmap(mBitmap, 500, 500, true)
+                imageView.setImageBitmap(mBitmap)
+            } else {
+                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -182,6 +178,12 @@ class MainFragment : Fragment() {
     }
 
     companion object {
+
+        private const val IMAGE_REQUEST_CODE = 100
+        private const val IMAGE_PERMISSION_CODE = 43
+        private const val CAMERA_PERMISSION_CODE = 42
+        private const val CAMERA_REQUEST_CODE = 2
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

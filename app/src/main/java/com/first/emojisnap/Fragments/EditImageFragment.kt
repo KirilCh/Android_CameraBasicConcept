@@ -1,16 +1,25 @@
 package com.first.emojisnap.Fragments
 
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.first.emojisnap.MainActivity
 import com.first.emojisnap.R
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +58,11 @@ class EditImageFragment : Fragment() {
 
         imageViewEdit.setImageBitmap(mBitmap)
 
+        val imageSaveButton = view.findViewById<Button>(R.id.btn_save_image)
+        imageSaveButton.setOnClickListener(View.OnClickListener {
+            saveToGallery_CheckPerm()
+        })
+
         btn_show_orignal_bitmap = view.findViewById(R.id.btn_show_orignal_bitmap)
         btn_show_orignal_bitmap.setOnClickListener(View.OnClickListener {
             mBitmap = mMainActivity.getOriginalBitmap()
@@ -83,6 +97,57 @@ class EditImageFragment : Fragment() {
         return view
     }
 
+    private fun saveToGallery_CheckPerm() {
+        if( context != null) {
+            if (ContextCompat.checkSelfPermission( requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                saveImage()
+            } else {
+                ActivityCompat.requestPermissions(
+                        context as Activity,
+                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        IMAGE_REQUEST_CODE
+                )
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if(requestCode==IMAGE_PERMISSION_CODE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            saveImage()
+        }
+        else {
+            Toast.makeText(context,"Permission not granted!",Toast.LENGTH_SHORT)
+        }
+
+    }
+
+    private fun saveImage(){
+        val externalStorageStats = Environment.getExternalStorageState()
+
+        if(externalStorageStats.equals(Environment.MEDIA_MOUNTED))
+        {
+            val storageDir = Environment.getExternalStorageDirectory().toString()
+            val rand = (1..1000).random()
+            val file = File(storageDir, "image$rand.jpg")
+
+            try {
+                val stream : OutputStream = FileOutputStream(file)
+                val bitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                stream.flush()
+                stream.close()
+                Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
+
+            } catch (e : Exception) {
+                e.printStackTrace()
+            }
+
+        } else
+        {
+            Toast.makeText(context, "unable to access the storage", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun setBitmap(bitmap: Bitmap) {
         mBitmap = bitmap
     }
@@ -98,6 +163,10 @@ class EditImageFragment : Fragment() {
     }
 
     companion object {
+
+        private const val IMAGE_REQUEST_CODE = 101
+        private const val IMAGE_PERMISSION_CODE = 44
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
