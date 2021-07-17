@@ -48,6 +48,7 @@ class MainFragment : Fragment() {
 
     private lateinit var mBitmap : Bitmap
     private lateinit var imageView : ImageView
+    private lateinit var btnContinueEdit : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +68,8 @@ class MainFragment : Fragment() {
 
         imageView = view.findViewById(R.id.imageView)
 
+
+
         val buttonTakePic : Button = view.findViewById(R.id.btnTakePicture)
         buttonTakePic.setOnClickListener(View.OnClickListener {
             buttonTakePicClicked()
@@ -78,12 +81,23 @@ class MainFragment : Fragment() {
             buttonChooseFromLibraryClicked()
         })
 
-        val btnContinueEdit : Button = view.findViewById(R.id.btnContinueEdit)
+        btnContinueEdit = view.findViewById(R.id.btnContinueEdit)
+        btnContinueEdit.isEnabled = false
         btnContinueEdit.setOnClickListener(View.OnClickListener {
             buttonContinueEdit()
         })
 
         return view
+    }
+
+    fun setDisableContinueButton()
+    {
+        btnContinueEdit.isEnabled = false
+    }
+
+    fun setEableContinueButton()
+    {
+        btnContinueEdit.isEnabled = true
     }
 
     fun setMainActivity(mainActivity: MainActivity)
@@ -151,15 +165,16 @@ class MainFragment : Fragment() {
                     scaledBitmap.height,
                     matrix,
                     true)
-
             mBitmap = rotatedBitmap;
             imageView.setImageBitmap(mBitmap)
+            mMainActivity.checkIfExist(mBitmap)
         }
 
         else if(requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
                 mBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, data?.data)
                 mBitmap = Bitmap.createScaledBitmap(mBitmap, 500, 500, true)
                 imageView.setImageBitmap(mBitmap)
+                mMainActivity.checkIfExist(mBitmap)
             } else {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             }

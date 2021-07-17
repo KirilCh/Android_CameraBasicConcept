@@ -15,56 +15,49 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
-        android:text="Back To Original"
-        android:textAllCaps="false"
-        />
-
+        android:text="Back to original"
+        android:textAllCaps="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_open_faces"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAllCaps="false"
-            android:textSize="10dp"
-            android:text="Face"/>
+            android:layout_weight="1"
+            android:src="@drawable/smiley_24" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_open_eyes"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAllCaps="false"
-            android:textSize="10dp"
-            android:text="Eyes"/>
+            android:layout_weight="1"
+            android:src="@drawable/eyes_24"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_open_noses"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAllCaps="false"
-            android:textSize="10dp"
-            android:text="Nose"/>
+            android:layout_weight="1"
+            android:src="@drawable/nose_24"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_open_moustache"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAllCaps="false"
-            android:textSize="10dp"
-            android:text="Moustache"/>
+            android:layout_weight="1"
+            android:src="@drawable/mustache_24"/>
 
-        <Button
+        <ImageButton
+
             android:id="@+id/btn_open_mouth"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAllCaps="false"
-            android:textSize="10dp"
-            android:text="Mouth"/>
+            android:layout_weight="1"
+            android:src="@drawable/mouth_24" />
 
     </LinearLayout>
 
@@ -79,7 +72,7 @@
 
     <Button
         android:id="@+id/btn_save_image"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Save Me"
         android:layout_weight="0.3"

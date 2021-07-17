@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [FaceFeatuersFragment.newInstance] factory method to
+ * Use the [FaceFeaturesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 
@@ -43,7 +42,7 @@ private lateinit var eyes_recycler : RecyclerView
 private lateinit var faces_recycler : RecyclerView
 private lateinit var textView_type : TextView
 
-class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
+class FaceFeaturesFragment : Fragment(), SmileyAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -121,7 +120,7 @@ class FaceFeatuersFragment : Fragment(), SmileyAdapter.OnItemClickListener {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                FaceFeatuersFragment().apply {
+                FaceFeaturesFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)

@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.HalfShowForEditFragment">
 
-
     <FrameLayout
         android:id="@+id/editFrame"
         android:layout_width="match_parent"
@@ -23,8 +22,6 @@
             android:scaleType="centerCrop"
             android:layout_gravity="center|top"/>
 
-
     </FrameLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

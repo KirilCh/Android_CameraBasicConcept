@@ -42,7 +42,7 @@ class HalfShowForEditFragment() : Fragment() {
 
         //var designFragment = DesignFragment()
         //supportFragmentManager.beginTransaction().replace(R.id.editFragment, designFragment).commit()
-        var featuersFragment = FaceFeatuersFragment()
+        var featuersFragment = FaceFeaturesFragment()
         childFragmentManager.beginTransaction().replace(R.id.editFrame, featuersFragment).commit()
 
 //        var editFragment : View = view.findViewById(R.id.editFrame)
