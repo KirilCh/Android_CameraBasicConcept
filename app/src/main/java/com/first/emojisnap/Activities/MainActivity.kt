@@ -128,7 +128,6 @@ class MainActivity : AppCompatActivity(), ICommunicator {
     fun changeEditFrameToEyes() {
         changeImageIfFaceBoolean(false)
         featuresFragment.showEyes()
-
     }
 
     fun changeEditFrameToNoses() {
@@ -148,12 +147,10 @@ class MainActivity : AppCompatActivity(), ICommunicator {
 
     private fun changeImageIfFaceBoolean(iTurnTo : Boolean)
     {
-        if(mFaceBoolean)
-        {
+        if(mFaceBoolean) {
             mWorkingBitmap = mOriginalBitmap
             mCurBitmap = mOriginalBitmap
-        }
-        else {
+        } else {
             mWorkingBitmap = mCurBitmap
         }
         mFaceBoolean = iTurnTo
@@ -173,31 +170,23 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         val image = InputImage.fromBitmap(bitmap, 0)
         val options = FaceDetectorOptions.Builder()
                 .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
-                .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
+                .setContourMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
                 .build()
         val detector = FaceDetection.getClient(options)
-        detector.process(image)
-                .addOnSuccessListener { faces ->
-                    if (faces.size==0)
-                    {
+        detector.process(image).addOnSuccessListener { faces ->
+                    if (faces.size==0) {
                         mainFragment.setDisableContinueButton()
-                        if (faces.isEmpty()) {
-                            showToast("No face found")
-                        }
-                    }
-                    else
-                    {
+                        showToast("No face found")
+                    } else {
                         mFaces = faces
                         mainFragment.setEableContinueButton()
                     }
-
                 }
                 .addOnFailureListener { e -> // Task failed with an exception
                     mainFragment.setDisableContinueButton()
                     e.printStackTrace()
                 }
     }
-
 
     private fun returnMutableBitmap(): Bitmap {
         var mutableBitmap : Bitmap
@@ -210,8 +199,6 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         }
         return mutableBitmap
     }
-
-
 
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

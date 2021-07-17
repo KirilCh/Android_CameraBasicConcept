@@ -156,7 +156,6 @@ class MainFragment : Fragment() {
             matrix.postRotate(270F)
             val scaledBitmap = Bitmap.createScaledBitmap(takenImage, takenImage.width, takenImage.height, true)
 
-            //Bitmap image
             val rotatedBitmap = Bitmap.createBitmap(
                     scaledBitmap,
                     0,

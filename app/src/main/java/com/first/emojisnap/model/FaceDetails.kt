@@ -11,11 +11,8 @@ import kotlin.math.max
 
 class FaceDetails ( face : Face ) {
 
-    val mFace : Face
+    private var mFace : Face = face
 
-    init {
-        this.mFace = face
-    }
 
     private fun returnMidPoint(x1Point : Float, x2Point : Float) : Float
     {
@@ -49,9 +46,6 @@ class FaceDetails ( face : Face ) {
     fun getCenterNosePoint() : Array<Float>
     {
         val noseContour = mFace.getContour(FaceContour.NOSE_BRIDGE)
-//        val xMidPoint = returnMidPoint(lipContour.points[0].x, lipContour.points[lipContour.points.size/2].x)
-//        val yMidPoint = returnMidPoint(lipContour.points[0].y, lipContour.points[lipContour.points.size/2].y)
-
         return getContourByType(noseContour)
     }
 
