@@ -4,16 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.first.emojisnap.R
 import com.first.emojisnap.SmileyType
 import kotlinx.android.synthetic.main.design_options_card.view.*
-import kotlinx.android.synthetic.main.fragment_face_featuers.view.*
 
 class SmileyAdapter(
-        private val itemList : List<SmileyItem>,
-        private val listener : OnItemClickListener,
+        private val mItemList : List<SmileyItem>,
+        private val mListener : OnItemClickListener,
         private val mChooseSmileyType : SmileyType
     ) : RecyclerView.Adapter<SmileyAdapter.ViewHolder>() {
 
@@ -23,18 +21,16 @@ class SmileyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = itemList[position]
+        val currentItem = mItemList[position]
 
         holder.imageView.setImageResource(currentItem.imageResource)
-        holder.textView.text = currentItem.text1
     }
 
-    override fun getItemCount() = itemList.size
+    override fun getItemCount() = mItemList.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener{
         val imageView : ImageView = itemView.imageViewCard
-        val textView : TextView = itemView.textViewCard
 
         init {
             itemView.setOnClickListener(this)
@@ -43,7 +39,7 @@ class SmileyAdapter(
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position, mChooseSmileyType)
+                mListener.onItemClick(position, mChooseSmileyType)
             }
         }
     }

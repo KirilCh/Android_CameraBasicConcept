@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.FaceFeaturesFragment" >
+    tools:context=".Fragments.FaceFeaturesFragment"
+    android:layout_margin="7dp">
 
     <TextView
         android:id="@+id/textView_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Faces"/>
+        android:text="Faces"
+        android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eyes_recycler"

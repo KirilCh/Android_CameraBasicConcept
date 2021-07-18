@@ -38,9 +38,9 @@ class EditImageFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var mBitmap : Bitmap
-    private lateinit var imageViewEdit : ImageView
+    private lateinit var mImageViewEdit : ImageView
     private lateinit var mMainActivity: MainActivity
-    private lateinit var btn_show_orignal_bitmap : Button
+    private lateinit var mBtnShowOriginalBitmap : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,50 +55,50 @@ class EditImageFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_edit_image, container, false)
 
-        imageViewEdit = view.findViewById<ImageView>(R.id.imageView_for_edit)
+        mImageViewEdit = view.findViewById<ImageView>(R.id.imageView_for_edit)
 
-        imageViewEdit.setImageBitmap(mBitmap)
+        mImageViewEdit.setImageBitmap(mBitmap)
 
-        val imageSaveButton = view.findViewById<Button>(R.id.btn_save_image)
+        var imageSaveButton = view.findViewById<Button>(R.id.btn_save_image)
         imageSaveButton.setOnClickListener(View.OnClickListener {
-            saveToGallery_CheckPerm()
+            saveToGalleryCheckPermission()
         })
 
-        btn_show_orignal_bitmap = view.findViewById(R.id.btn_show_orignal_bitmap)
-        btn_show_orignal_bitmap.setOnClickListener(View.OnClickListener {
+        mBtnShowOriginalBitmap = view.findViewById(R.id.btn_show_orignal_bitmap)
+        mBtnShowOriginalBitmap.setOnClickListener(View.OnClickListener {
             mBitmap = mMainActivity.getOriginalBitmap()
-            imageViewEdit.setImageBitmap(mBitmap)
+            mImageViewEdit.setImageBitmap(mBitmap)
         })
 
-        var btn_open_faces = view.findViewById<ImageButton>(R.id.btn_open_faces)
-        btn_open_faces.setOnClickListener(View.OnClickListener {
+        var btnOpenFaces = view.findViewById<ImageButton>(R.id.btn_open_faces)
+        btnOpenFaces.setOnClickListener(View.OnClickListener {
             mMainActivity.changeEditFrameToFaces()
         })
 
-        var btn_open_eyes = view.findViewById<ImageButton>(R.id.btn_open_eyes)
-        btn_open_eyes.setOnClickListener(View.OnClickListener {
+        var btnOpenEyes = view.findViewById<ImageButton>(R.id.btn_open_eyes)
+        btnOpenEyes.setOnClickListener(View.OnClickListener {
             mMainActivity.changeEditFrameToEyes()
         })
 
-        var btn_open_noses = view.findViewById<ImageButton>(R.id.btn_open_noses)
-        btn_open_noses.setOnClickListener(View.OnClickListener {
+        var btnOpenNoses = view.findViewById<ImageButton>(R.id.btn_open_noses)
+        btnOpenNoses.setOnClickListener(View.OnClickListener {
             mMainActivity.changeEditFrameToNoses()
         })
 
-        var btn_open_moustache = view.findViewById<ImageButton>(R.id.btn_open_moustache)
-        btn_open_moustache.setOnClickListener(View.OnClickListener {
+        var btnOpenMoustache = view.findViewById<ImageButton>(R.id.btn_open_moustache)
+        btnOpenMoustache.setOnClickListener(View.OnClickListener {
             mMainActivity.changeEditFrameToMoustaches()
         })
 
-        var btn_open_mouth = view.findViewById<ImageButton>(R.id.btn_open_mouth)
-        btn_open_mouth.setOnClickListener(View.OnClickListener {
+        var btnOpenMouth = view.findViewById<ImageButton>(R.id.btn_open_mouth)
+        btnOpenMouth.setOnClickListener(View.OnClickListener {
             mMainActivity.changeEditFrameToMouth()
         })
 
         return view
     }
 
-    private fun saveToGallery_CheckPerm() {
+    private fun saveToGalleryCheckPermission() {
         if( context != null) {
             if (ContextCompat.checkSelfPermission( requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 saveImage()
@@ -119,7 +119,6 @@ class EditImageFragment : Fragment() {
         else {
             Toast.makeText(context,"Permission not granted!",Toast.LENGTH_SHORT)
         }
-
     }
 
     private fun saveImage(){
@@ -160,7 +159,7 @@ class EditImageFragment : Fragment() {
     fun changeBitmap(bitmap: Bitmap)
     {
         mBitmap = bitmap
-        imageViewEdit.setImageBitmap(mBitmap)
+        mImageViewEdit.setImageBitmap(mBitmap)
     }
 
     companion object {

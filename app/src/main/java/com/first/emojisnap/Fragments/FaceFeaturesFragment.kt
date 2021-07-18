@@ -26,26 +26,24 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
-private lateinit var mFacesList : ArrayList<SmileyItem>
-private lateinit var mEyesList : ArrayList<SmileyItem>
-private lateinit var mNoseList : ArrayList<SmileyItem>
-private lateinit var mMouthList : ArrayList<SmileyItem>
-private lateinit var mMoustache : ArrayList<SmileyItem>
-private lateinit var mComunicate : ICommunicator
-
-private lateinit var mEnumChoose : SmileyType
-
-private lateinit var moustache_recycler : RecyclerView
-private lateinit var mouth_recycler : RecyclerView
-private lateinit var nose_recycler : RecyclerView
-private lateinit var eyes_recycler : RecyclerView
-private lateinit var faces_recycler : RecyclerView
-private lateinit var textView_type : TextView
-
 class FaceFeaturesFragment : Fragment(), SmileyAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var mFacesList : ArrayList<SmileyItem>
+    private lateinit var mEyesList : ArrayList<SmileyItem>
+    private lateinit var mNoseList : ArrayList<SmileyItem>
+    private lateinit var mMouthList : ArrayList<SmileyItem>
+    private lateinit var mMoustache : ArrayList<SmileyItem>
+    private lateinit var mCommunicate : ICommunicator
+
+    private lateinit var mMoustacheRecycler : RecyclerView
+    private lateinit var mMouthRecycler : RecyclerView
+    private lateinit var mNoseRecycler : RecyclerView
+    private lateinit var mEyesRecycler : RecyclerView
+    private lateinit var mFacesRecycler : RecyclerView
+    private lateinit var mTextViewType : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,43 +58,42 @@ class FaceFeaturesFragment : Fragment(), SmileyAdapter.OnItemClickListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_face_featuers, container, false)
 
-        mComunicate = activity as ICommunicator
+        mCommunicate = activity as ICommunicator
 
-        textView_type = view.findViewById<TextView>(R.id.textView_type)
+        mTextViewType = view.findViewById<TextView>(R.id.textView_type)
 
-        faces_recycler = view.findViewById(R.id.faces_recycler)
+        mFacesRecycler = view.findViewById(R.id.faces_recycler)
         mFacesList = generateSmileyList(14,"smiley", R.drawable.smiley1) as ArrayList<SmileyItem>
-        faces_recycler.adapter = SmileyAdapter(mFacesList, this, SmileyType.SMILEY)
-        faces_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        faces_recycler.setHasFixedSize(true)
+        mFacesRecycler.adapter = SmileyAdapter(mFacesList, this, SmileyType.SMILEY)
+        mFacesRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mFacesRecycler.setHasFixedSize(true)
 
-        eyes_recycler = view.findViewById(R.id.eyes_recycler)
+        mEyesRecycler = view.findViewById(R.id.eyes_recycler)
         mEyesList = generateSmileyList(9,"eyes", R.drawable.eyes1) as ArrayList<SmileyItem>
-        eyes_recycler.adapter = SmileyAdapter(mEyesList, this, SmileyType.EYE)
-        eyes_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        eyes_recycler.setHasFixedSize(true)
+        mEyesRecycler.adapter = SmileyAdapter(mEyesList, this, SmileyType.EYE)
+        mEyesRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mEyesRecycler.setHasFixedSize(true)
 
-        nose_recycler = view.findViewById(R.id.nose_recycler)
+        mNoseRecycler = view.findViewById(R.id.nose_recycler)
         mNoseList = generateSmileyList(9,"nose", R.drawable.nose1) as ArrayList<SmileyItem>
-        nose_recycler.adapter = SmileyAdapter(mNoseList, this, SmileyType.NOSE)
-        nose_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        nose_recycler.setHasFixedSize(true)
+        mNoseRecycler.adapter = SmileyAdapter(mNoseList, this, SmileyType.NOSE)
+        mNoseRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mNoseRecycler.setHasFixedSize(true)
 
-        mouth_recycler = view.findViewById(R.id.mouth_recycler)
+        mMouthRecycler = view.findViewById(R.id.mouth_recycler)
         mMouthList = generateSmileyList(6,"mouth", R.drawable.mouth1) as ArrayList<SmileyItem>
-        mouth_recycler.adapter = SmileyAdapter(mMouthList, this, SmileyType.MOUTH)
-        mouth_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        mouth_recycler.setHasFixedSize(true)
+        mMouthRecycler.adapter = SmileyAdapter(mMouthList, this, SmileyType.MOUTH)
+        mMouthRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mMouthRecycler.setHasFixedSize(true)
 
-        moustache_recycler = view.findViewById(R.id.mustache_recycler)
+        mMoustacheRecycler = view.findViewById(R.id.mustache_recycler)
         mMoustache = generateSmileyList(4,"mustache", R.drawable.mustache1) as ArrayList<SmileyItem>
-        moustache_recycler.adapter = SmileyAdapter(mMoustache, this, SmileyType.MUSTACHE)
-        moustache_recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        moustache_recycler.setHasFixedSize(true)
+        mMoustacheRecycler.adapter = SmileyAdapter(mMoustache, this, SmileyType.MUSTACHE)
+        mMoustacheRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mMoustacheRecycler.setHasFixedSize(true)
 
         return view
     }
-
 
     private fun generateSmileyList(iSize: Int, iType: String, iDrawable : Int) : List<SmileyItem> {
         val listOfImages = ArrayList<SmileyItem>()
@@ -106,6 +103,81 @@ class FaceFeaturesFragment : Fragment(), SmileyAdapter.OnItemClickListener {
             listOfImages+=item
         }
         return listOfImages
+    }
+
+    override fun onItemClick(position: Int, smileyType: SmileyType) {
+
+        var clickedItem : SmileyItem? = null
+
+        when(smileyType)
+        {
+            SmileyType.EYE -> {
+                clickedItem = mEyesList[position]
+                Toast.makeText(context, "eye", Toast.LENGTH_SHORT).show()
+                mCommunicate.getEyeFromFragment(clickedItem.imageResource)
+            }
+            SmileyType.NOSE -> {
+                clickedItem = mNoseList[position]
+                Toast.makeText(context, "Nose", Toast.LENGTH_SHORT).show()
+                mCommunicate.getNoseFromFragment(clickedItem.imageResource)
+            }
+            SmileyType.MOUTH -> {
+                clickedItem = mMouthList[position]
+                Toast.makeText(context, "MOUTH", Toast.LENGTH_SHORT).show()
+                mCommunicate.getMouthFromFragment(clickedItem.imageResource)
+            }
+            SmileyType.MUSTACHE -> {
+                clickedItem = mMoustache[position]
+                Toast.makeText(context, "Mustache", Toast.LENGTH_SHORT).show()
+                mCommunicate.getMouthFromFragment(clickedItem.imageResource)
+            }
+            SmileyType.SMILEY -> {
+                clickedItem = mFacesList[position]
+                Toast.makeText(context, "Face", Toast.LENGTH_SHORT).show()
+                mCommunicate.getFaceFromFragment(clickedItem.imageResource)
+            }
+        }
+    }
+
+    fun showFaces()
+    {
+        goneAllRecycler()
+        mFacesRecycler.visibility = View.VISIBLE
+        mTextViewType.text = "Faces"
+    }
+
+    fun showEyes()
+    {
+        goneAllRecycler()
+        mEyesRecycler.visibility = View.VISIBLE
+        mTextViewType.text = "Eyes"
+    }
+
+    fun showNoses() {
+        goneAllRecycler()
+        mNoseRecycler.visibility = View.VISIBLE
+        mTextViewType.text = "Noses"
+    }
+
+    fun showMoustaches() {
+        goneAllRecycler()
+        mMoustacheRecycler.visibility = View.VISIBLE
+        mTextViewType.text = "Moustaches"
+    }
+
+    fun showMouth() {
+        goneAllRecycler()
+        mMouthRecycler.visibility = View.VISIBLE
+        mTextViewType.text = "Mouth"
+    }
+
+    fun goneAllRecycler()
+    {
+        mMoustacheRecycler.visibility = View.GONE
+        mMouthRecycler.visibility = View.GONE
+        mNoseRecycler.visibility = View.GONE
+        mEyesRecycler.visibility = View.GONE
+        mFacesRecycler.visibility = View.GONE
     }
 
     companion object {
@@ -127,82 +199,4 @@ class FaceFeaturesFragment : Fragment(), SmileyAdapter.OnItemClickListener {
                     }
                 }
     }
-
-    override fun onItemClick(position: Int, smileyType: SmileyType) {
-
-        var clickedItem : SmileyItem? = null
-
-        when(smileyType)
-        {
-            SmileyType.EYE -> {
-                clickedItem = mEyesList[position]
-                Toast.makeText(context, "eye", Toast.LENGTH_SHORT).show()
-                mComunicate.getEyeFromFragment(clickedItem.imageResource)
-            }
-            SmileyType.NOSE -> {
-                clickedItem = mNoseList[position]
-                Toast.makeText(context, "Nose", Toast.LENGTH_SHORT).show()
-                mComunicate.getNoseFromFragment(clickedItem.imageResource)
-            }
-            SmileyType.MOUTH -> {
-                clickedItem = mMouthList[position]
-                Toast.makeText(context, "MOUTH", Toast.LENGTH_SHORT).show()
-                mComunicate.getMouthFromFragment(clickedItem.imageResource)
-            }
-            SmileyType.MUSTACHE -> {
-                clickedItem = mMoustache[position]
-                Toast.makeText(context, "Mustache", Toast.LENGTH_SHORT).show()
-                mComunicate.getMouthFromFragment(clickedItem.imageResource)
-            }
-            SmileyType.SMILEY -> {
-                clickedItem = mFacesList[position]
-                Toast.makeText(context, "Face", Toast.LENGTH_SHORT).show()
-                mComunicate.getFaceFromFragment(clickedItem.imageResource)
-            }
-        }
-    }
-
-    fun showFaces()
-    {
-        goneAllRecycler()
-        faces_recycler.visibility = View.VISIBLE
-        textView_type.text = "Faces"
-    }
-
-    fun showEyes()
-    {
-        goneAllRecycler()
-        eyes_recycler.visibility = View.VISIBLE
-        textView_type.text = "Eyes"
-    }
-
-    fun showNoses() {
-        goneAllRecycler()
-        nose_recycler.visibility = View.VISIBLE
-        textView_type.text = "Noses"
-    }
-
-    fun showMoustaches() {
-        goneAllRecycler()
-        moustache_recycler.visibility = View.VISIBLE
-        textView_type.text = "Moustaches"
-    }
-
-    fun showMouth() {
-        goneAllRecycler()
-        mouth_recycler.visibility = View.VISIBLE
-        textView_type.text = "Mouth"
-    }
-
-
-    fun goneAllRecycler()
-    {
-        moustache_recycler.visibility = View.GONE
-        mouth_recycler.visibility = View.GONE
-        nose_recycler.visibility = View.GONE
-        eyes_recycler.visibility = View.GONE
-        faces_recycler.visibility = View.GONE
-    }
-
-
 }

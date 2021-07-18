@@ -10,13 +10,16 @@
     android:paddingTop="10dp"
     tools:context=".Fragments.EditImageFragment">
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_show_orignal_bitmap"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.3"
-        android:text="Back to original"
-        android:textAllCaps="false" />
+        android:layout_weight="0.45"
+        android:background="#F44D4D"
+        android:src="@drawable/settings_backup_restore_24"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        app:tint="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,7 +70,7 @@
         android:layout_height="match_parent"
         tools:src="@tools:sample/avatars"
         android:gravity="center"
-        android:layout_weight="0.1"
+        android:layout_weight="0.17"
         />
 
     <Button
@@ -75,6 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Save Me"
-        android:layout_weight="0.3"
+        android:layout_marginBottom="30dp"
+        android:layout_weight="0.45"
         />
 </LinearLayout>

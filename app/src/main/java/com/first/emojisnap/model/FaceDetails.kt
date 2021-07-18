@@ -30,7 +30,6 @@ class FaceDetails ( face : Face ) {
         return getContourByType(faceContour)
     }
 
-
     fun getLeftEyePoint() : Array<Float>
     {
         val leftEyeContour = mFace.getContour(FaceContour.LEFT_EYE)

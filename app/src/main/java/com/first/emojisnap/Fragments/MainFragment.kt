@@ -4,30 +4,18 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.graphics.Matrix
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import com.first.emojisnap.MainActivity
 import com.first.emojisnap.R
-import java.io.File
-import java.io.InputStream
-import java.time.format.ResolverStyle
-import java.util.jar.Manifest
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,8 +35,9 @@ class MainFragment : Fragment() {
     private lateinit var mMainActivity : MainActivity
 
     private lateinit var mBitmap : Bitmap
-    private lateinit var imageView : ImageView
-    private lateinit var btnContinueEdit : Button
+    private lateinit var mImageView : ImageView
+    private lateinit var mBtnContinueEdit : Button
+    private lateinit var mTextViewTitle : TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,38 +55,35 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main, container, false)
 
-        imageView = view.findViewById(R.id.imageView)
+        mImageView = view.findViewById(R.id.imageView)
+        mTextViewTitle = view.findViewById(R.id.textViewTitleMain)
 
-
-
-        val buttonTakePic : Button = view.findViewById(R.id.btnTakePicture)
+        val buttonTakePic : ImageButton = view.findViewById(R.id.btnTakePicture)
         buttonTakePic.setOnClickListener(View.OnClickListener {
             buttonTakePicClicked()
         })
 
-
-        val btnChoseFromLibrary : Button = view.findViewById(R.id.btnChoseFromLibrary)
+        val btnChoseFromLibrary : ImageButton = view.findViewById(R.id.btnChoseFromLibrary)
         btnChoseFromLibrary.setOnClickListener(View.OnClickListener {
             buttonChooseFromLibraryClicked()
         })
 
-        btnContinueEdit = view.findViewById(R.id.btnContinueEdit)
-        btnContinueEdit.isEnabled = false
-        btnContinueEdit.setOnClickListener(View.OnClickListener {
+        mBtnContinueEdit = view.findViewById(R.id.btnContinueEdit)
+        mBtnContinueEdit.isEnabled = false
+        mBtnContinueEdit.setOnClickListener(View.OnClickListener {
             buttonContinueEdit()
         })
-
         return view
     }
 
     fun setDisableContinueButton()
     {
-        btnContinueEdit.isEnabled = false
+        mBtnContinueEdit.isEnabled = false
     }
 
     fun setEableContinueButton()
     {
-        btnContinueEdit.isEnabled = true
+        mBtnContinueEdit.isEnabled = true
     }
 
     fun setMainActivity(mainActivity: MainActivity)
@@ -165,18 +151,24 @@ class MainFragment : Fragment() {
                     matrix,
                     true)
             mBitmap = rotatedBitmap;
-            imageView.setImageBitmap(mBitmap)
-            mMainActivity.checkIfExist(mBitmap)
+            afterTakingImage()
         }
 
         else if(requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
                 mBitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, data?.data)
                 mBitmap = Bitmap.createScaledBitmap(mBitmap, 500, 500, true)
-                imageView.setImageBitmap(mBitmap)
-                mMainActivity.checkIfExist(mBitmap)
+                afterTakingImage()
             } else {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun afterTakingImage()
+    {
+        mImageView.setImageBitmap(mBitmap)
+        mMainActivity.checkIfExist(mBitmap)
+        mTextViewTitle.visibility = View.GONE
+        mImageView.visibility = View.VISIBLE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -192,12 +184,10 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-
         private const val IMAGE_REQUEST_CODE = 100
         private const val IMAGE_PERMISSION_CODE = 43
         private const val CAMERA_PERMISSION_CODE = 42
         private const val CAMERA_REQUEST_CODE = 2
-
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

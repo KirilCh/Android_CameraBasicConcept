@@ -34,45 +34,33 @@ class HalfShowForEditFragment() : Fragment() {
         }
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_half_show_edit, container, false)
 
-        //var designFragment = DesignFragment()
-        //supportFragmentManager.beginTransaction().replace(R.id.editFragment, designFragment).commit()
-        var featuersFragment = FaceFeaturesFragment()
-        childFragmentManager.beginTransaction().replace(R.id.editFrame, featuersFragment).commit()
+        var featuresFragment = FaceFeaturesFragment()
+        childFragmentManager.beginTransaction().replace(R.id.editFrame, featuresFragment).commit()
 
-//        var editFragment : View = view.findViewById(R.id.editFrame)
-//        BottomSheetBehavior.from(editFragment).apply {
-//            peekHeight=65
-//            this.state= BottomSheetBehavior.STATE_COLLAPSED
-//        }
-
-        //val imageView : ImageView = view.findViewById(R.id.imageView)
-        //imageView.setImageBitmap(bitmap)
         return view
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment EditFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//                EditFragment().apply {
-//                    arguments = Bundle().apply {
-//                        putString(ARG_PARAM1, param1)
-//                        putString(ARG_PARAM2, param2)
-//                    }
-//                }
-//    }
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment EditFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                HalfShowForEditFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
+    }
 }

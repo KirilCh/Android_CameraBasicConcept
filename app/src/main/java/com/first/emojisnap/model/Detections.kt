@@ -10,20 +10,20 @@ class Detections {
 
 
     // From here - Start Processing The Image
-    public fun processFaceContourDetectionResult(smileyType: SmileyType, mFaces : MutableList<Face>, mSmily : Bitmap, mutableBitmap : Bitmap, mCurBitmap : Bitmap) : Bitmap {
+    public fun processFaceContourDetectionResult(iSmileyType: SmileyType, iFaces : MutableList<Face>, iSmily : Bitmap, iMutableBitmap : Bitmap, iCurBitmap : Bitmap) : Bitmap {
 
         val facesList = ArrayList<FaceDetails>()
 
-        var curBitmap = mCurBitmap.copy(Bitmap.Config.ARGB_8888, true)
+        var curBitmap = iCurBitmap.copy(Bitmap.Config.ARGB_8888, true)
 
-        for (i in mFaces.indices) {
-            facesList.add(FaceDetails(mFaces[i]))
+        for (i in iFaces.indices) {
+            facesList.add(FaceDetails(iFaces[i]))
 
-            when (smileyType) {
+            when (iSmileyType) {
                 SmileyType.SMILEY -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getCenterOfFacePoint()
                     val bitmapForImageView: Bitmap = overlay(
-                            mutableBitmap, mSmily, xMidPoint, yMidPoint,
+                            iMutableBitmap, iSmily, xMidPoint, yMidPoint,
                             width + width / 3, hight + hight / 2) as Bitmap
                     curBitmap = bitmapForImageView
                 }
@@ -32,34 +32,34 @@ class Detections {
                     width = if(width < 10f ) 20f else width
                     hight = if(hight < 10f ) 20f else hight
                     val bitmapForImageView : Bitmap =
-                            overlay(mutableBitmap, mSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
+                            overlay(iMutableBitmap, iSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
 
 
                     var (xMidPoint1, yMidPoint1, width1, hight1) = facesList[i].getRightEyePoint()
                     width1 = if(width1< 10f ) 20f else width1
                     hight1 = if(hight1 < 10f ) 20f else hight1
                     val bitmapForImageView1 : Bitmap = overlay(
-                            bitmapForImageView, mSmily, xMidPoint1, yMidPoint1,
+                            bitmapForImageView, iSmily, xMidPoint1, yMidPoint1,
                             width1, hight1) as Bitmap
                     curBitmap = bitmapForImageView1
                 }
                 SmileyType.NOSE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getCenterNosePoint()
                     val bitmapForImageView: Bitmap = overlay(
-                            mutableBitmap, mSmily, xMidPoint, yMidPoint + 10,
+                            iMutableBitmap, iSmily, xMidPoint, yMidPoint + 10,
                             hight, hight) as Bitmap
                     curBitmap = bitmapForImageView
                 }
                 SmileyType.MOUTH -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getCenterLipPoint()
                     val bitmapForImageView: Bitmap =
-                            overlay(mutableBitmap, mSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
+                            overlay(iMutableBitmap, iSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
                     curBitmap = bitmapForImageView
                 }
                 SmileyType.MUSTACHE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getMustachePoint()
                     val bitmapForImageView: Bitmap =
-                            overlay(mutableBitmap, mSmily, xMidPoint, yMidPoint+100f, width, hight) as Bitmap
+                            overlay(iMutableBitmap, iSmily, xMidPoint, yMidPoint+100f, width, hight) as Bitmap
                     curBitmap = bitmapForImageView
                 }
             }

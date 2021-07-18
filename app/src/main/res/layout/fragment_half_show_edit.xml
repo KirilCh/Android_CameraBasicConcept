@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:visibility="visible"
-        android:background="@drawable/shape_botton_fragment">
+        android:background="@drawable/shape_bottom_fragment">
 
         <ImageView
             android:id="@+id/edit_Image_View"
@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/remove"
             android:scaleType="centerCrop"
-            android:layout_gravity="center|top"/>
+            android:layout_gravity="center|top"
+            android:layout_marginBottom="10dp"/>
 
     </FrameLayout>
 
