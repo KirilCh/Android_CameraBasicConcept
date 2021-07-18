@@ -17,10 +17,6 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import java.io.File
 
-private const val FILE_NAME = "myEmoji.jpg" //Can be later changed to dynamic naming
-private const val REQUEST_CODE = 42
-private lateinit var photoFile: File
-
 enum class SmileyType {
     SMILEY,
     EYE,
@@ -58,7 +54,7 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         mEditFragment = binding.editFragment
 
         BottomSheetBehavior.from(mEditFragment).apply {
-            peekHeight=65
+            peekHeight=10
             this.state= BottomSheetBehavior.STATE_COLLAPSED
         }
         mEditFragment.visibility = View.GONE
@@ -103,7 +99,7 @@ class MainActivity : AppCompatActivity(), ICommunicator {
         mEditImageFragment = EditImageFragment()
         mEditImageFragment.setBitmap(bitmap)
         mEditImageFragment.setMainActivity(this)
-        this.supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mEditImageFragment)
+        this.supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.mainFrame, mEditImageFragment)
             .commit()
         mFeaturesFragment.showFaces()
         mEditFragment.visibility = View.VISIBLE

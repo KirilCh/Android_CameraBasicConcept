@@ -29,15 +29,15 @@ class Detections {
                 }
                 SmileyType.EYE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getLeftEyePoint()
-                    width = if(width < 10f ) 20f else width
-                    hight = if(hight < 10f ) 20f else hight
+                    width = if(width < 10f ) 15f else width
+                    hight = if(hight < 10f ) 15f else hight
                     val bitmapForImageView : Bitmap =
                             overlay(iMutableBitmap, iSmily, xMidPoint, yMidPoint, width, hight) as Bitmap
 
 
                     var (xMidPoint1, yMidPoint1, width1, hight1) = facesList[i].getRightEyePoint()
-                    width1 = if(width1< 10f ) 20f else width1
-                    hight1 = if(hight1 < 10f ) 20f else hight1
+                    width1 = if(width1< 10f ) 15f else width1
+                    hight1 = if(hight1 < 10f ) 15f else hight1
                     val bitmapForImageView1 : Bitmap = overlay(
                             bitmapForImageView, iSmily, xMidPoint1, yMidPoint1,
                             width1, hight1) as Bitmap
@@ -59,7 +59,7 @@ class Detections {
                 SmileyType.MUSTACHE -> {
                     var (xMidPoint, yMidPoint, width, hight) = facesList[i].getMustachePoint()
                     val bitmapForImageView: Bitmap =
-                            overlay(iMutableBitmap, iSmily, xMidPoint, yMidPoint+100f, width, hight) as Bitmap
+                            overlay(iMutableBitmap, iSmily, xMidPoint, yMidPoint+30f, width+10, hight) as Bitmap
                     curBitmap = bitmapForImageView
                 }
             }

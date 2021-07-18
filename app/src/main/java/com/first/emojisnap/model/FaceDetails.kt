@@ -75,8 +75,8 @@ class FaceDetails ( face : Face ) {
         val (xMidPoint2,yMidPoint2, widthBitmap2, heightBitmap2) = getContourByType(upperLipsContour)
 
         val x = returnMidPoint(xMidPoint1,xMidPoint)
-        val y = returnMidPoint(yMidPoint1,yMidPoint) + 200
-        val width = (widthBitmap1+widthBitmap2+20)
+        val y = returnMidPoint(yMidPoint1,yMidPoint)
+        val width = (widthBitmap1+widthBitmap2)
         val height = max(heightBitmap1,heightBitmap2)
 
         return arrayOf(x,y,width,height)
