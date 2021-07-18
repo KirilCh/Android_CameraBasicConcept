@@ -11,23 +11,11 @@
 
         <ImageView
             android:id="@+id/imageViewCard"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/smiley1"/>
-
-        <TextView
-            android:id="@+id/textViewCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_below="@id/imageViewCard"
-            android:layout_centerInParent="@id/imageViewCard"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/smiley1" />
 
     </RelativeLayout>
-
-
-
-
-
 
 </androidx.cardview.widget.CardView>

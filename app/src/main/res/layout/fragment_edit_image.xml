@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:paddingTop="10dp"
+    tools:context=".Fragments.EditImageFragment">
+
+    <ImageButton
+        android:id="@+id/btn_show_orignal_bitmap"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.45"
+        android:background="@drawable/button_shape_red"
+        android:src="@drawable/settings_backup_restore_24"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_open_faces"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_shape"
+            android:src="@drawable/smiley_24" />
+
+        <ImageButton
+            android:id="@+id/btn_open_eyes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_shape"
+            android:src="@drawable/eyes_24"/>
+
+        <ImageButton
+            android:id="@+id/btn_open_noses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_shape"
+            android:src="@drawable/nose_24"/>
+
+        <ImageButton
+            android:id="@+id/btn_open_moustache"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_shape"
+            android:src="@drawable/mustache_24"/>
+
+        <ImageButton
+
+            android:id="@+id/btn_open_mouth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_shape"
+            android:src="@drawable/mouth_24" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView_for_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@tools:sample/avatars"
+        android:gravity="center"
+        android:layout_weight="0.17"
+        />
+
+    <Button
+        android:id="@+id/btn_save_image"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Save Me"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_shape_red"
+        android:layout_weight="0.45"
+        />
+</LinearLayout>
